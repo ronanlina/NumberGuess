@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "383890941586",
+    "firebase_url": "https://number-guess-a965b.firebaseio.com",
+    "project_id": "number-guess-a965b",
+    "storage_bucket": "number-guess-a965b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383890941586:android:8ea1ff657812cb99",
+        "android_client_info": {
+          "package_name": "com.example.connivingdog.numberguess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383890941586-e4esn38jvk5encpq9h2rv3crf8ftp4fa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkI1DDXtK7OGjumdUFjSre6MS0C4RFgBM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
