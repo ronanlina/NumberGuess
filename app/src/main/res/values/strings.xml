@@ -2,6 +2,7 @@
     <string name="app_name">Number Guess</string>
     <string name="number">09</string>
     <string name="hint">(09)1234567</string>
+    <string name="guess">GUESS</string>
 
     <string-array name="sim_list">
         <item>GLOBE/TM</item>
