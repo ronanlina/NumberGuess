@@ -3,12 +3,11 @@
     <string name="number">09</string>
     <string name="hint">(09)1234567</string>
     <string name="guess">GUESS</string>
-
     <string-array name="sim_list">
         <item>GLOBE/TM</item>
         <item>SMART/TNT</item>
         <item>SUN</item>
         <item>ABS-CBN MOBILE</item>
     </string-array>
-
+    <string name="format_warning">invalid number</string>
 </resources>
