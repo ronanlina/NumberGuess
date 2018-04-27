@@ -1,16 +1,22 @@
 package com.example.connivingdog.numberguess
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import com.example.connivingdog.numberguess.R.id.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.DataSnapshot
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,62 +25,45 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //populating spinner
-        val arr: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(this,R.array.sim_list,
-                android.R.layout.simple_spinner_dropdown_item)
-        arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        simCatSpin.adapter = arr
-
-        button2.setOnClickListener {
-            attemptFetchResult()
+        //grid button onClick listeners (not simplified)
+        b1.setOnClickListener{numberText.text.append(b1.text) }
+        b2.setOnClickListener{numberText.text.append(b2.text) }
+        b3.setOnClickListener{numberText.text.append(b3.text) }
+        b4.setOnClickListener{numberText.text.append(b4.text) }
+        b5.setOnClickListener{numberText.text.append(b5.text) }
+        b6.setOnClickListener{numberText.text.append(b6.text) }
+        b7.setOnClickListener{numberText.text.append(b7.text) }
+        b8.setOnClickListener{numberText.text.append(b8.text) }
+        b9.setOnClickListener{numberText.text.append(b9.text) }
+        b0.setOnClickListener{numberText.text.append(b0.text) }
+        clear.setOnClickListener{
+            numberText.text.clear()
+            numberText.text.append("09")
         }
-        //when pressing enter on the keyboard
-        numberText.setOnKeyListener(View.OnKeyListener { v, keyCode, event -> //when enter is pressed on the keyboard
-            if(event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER)
-                attemptFetchResult()
 
-            return@OnKeyListener true
+        numberText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                Toast.makeText(this@MainActivity,
+                            "value :" + numberText.text,
+                            Toast.LENGTH_SHORT).show() //for testing
+                            fetchResult(numberText.text.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
         })
 
-
-    }
-
-    private fun attemptFetchResult(){
-        var focusView: View? = null
-        var cancel: Boolean = false
-
-        if(!checkNumberValidity()){
-            numberText?.error = getString( R.string.format_warning)
-            cancel = true
-            focusView = numberText
+        fab.setOnClickListener {
+            var intent= Intent(this,AddSimPref::class.java)
+            startActivity(intent)
         }
 
-        if(cancel){ focusView?.requestFocus() }
-        else{fetchResult()}
-    }
-    private fun checkNumberValidity(): Boolean{
-        if(numberText.length() < 11){
-            return false
-        }
-
-        var userPrefix: String = getUserPrefix()
-
-        if(userPrefix.toInt() in 1000..899){
-            return false
-        }
-        return true
-    }
-    // function with return type
-    private fun getUserPrefix(): String {
-        var simNumber : String = ""
-        for(a in 0..3)
-            simNumber += numberText.text[a].toString()
-        return simNumber
     }
 
-    private fun fetchResult(){
-        var userPrefix: String = getUserPrefix()
+    private fun fetchResult(userPrefix: String){
         Log.d("usePRef",userPrefix + " x ")
 
         var sp: SimPrefix

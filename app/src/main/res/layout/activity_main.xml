@@ -23,49 +23,106 @@
     <EditText
         android:id="@+id/numberText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="59dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="1dp"
+        android:layout_marginTop="220dp"
+        android:clickable="false"
         android:ems="10"
+        android:enabled="false"
         android:fontFamily="@font/archivo_narrow"
         android:hint="@string/hint"
         android:inputType="number"
-        android:maxLength="2"
+        android:maxLength="4"
+        android:text="@string/pre_pref"
         android:textAlignment="center"
-        android:textSize="24sp"
+
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintVertical_bias="0.091" />
 
-    <Spinner
-        android:id="@+id/simCatSpin"
-        android:layout_width="288dp"
-        android:layout_height="38dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.766" />
-
-    <Button
-        android:id="@+id/button2"
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/keyboardGrid"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="195dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="80dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:enabled="true"
-        android:text="@string/guess"
-        android:visibility="visible"
+        android:columnCount="3"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/numberText"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/numberText"
-        app:layout_constraintTop_toBottomOf="@+id/numberText"
-        app:layout_constraintVertical_bias="0.107" />
+        app:layout_constraintTop_toBottomOf="@+id/numberText">
+
+        <Button
+            android:id="@+id/b1"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/b2"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/b3"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/b4"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/b5"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/b6"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/b7"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/b8"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/b9"
+            android:text="9" />
+
+        <Button
+            android:id="@+id/b0"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:text="CLEAR" />
+
+    </GridLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="68dp"
+        android:layout_height="69dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/addbutton"
+        app:backgroundTint="#44ad38"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.914" />
 
 </android.support.constraint.ConstraintLayout>
