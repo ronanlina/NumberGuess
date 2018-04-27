@@ -11,4 +11,5 @@
     </string-array>
     <string name="format_warning">invalid number</string>
     <string name="pre_pref">09</string>
+    <string name="prefix">09</string>
 </resources>

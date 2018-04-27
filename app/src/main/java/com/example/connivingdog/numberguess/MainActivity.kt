@@ -6,17 +6,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
-import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.example.connivingdog.numberguess.R.id.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.DataSnapshot
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //fetch result from database
     private fun fetchResult(userPrefix: String){
         Log.d("usePRef",userPrefix + " x ")
 

@@ -6,4 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".AddSimPref">
 
+    <Spinner
+        android:id="@+id/cardSpin"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="58dp"
+        android:layout_marginEnd="61dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="62dp"
+        app:layout_constraintBottom_toBottomOf="@+id/prefText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/prefText"
+        android:layout_width="195dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="2"
+        android:textAlignment="textStart"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/prePrefView"
+        app:layout_constraintStart_toEndOf="@+id/prePrefView" />
+
+    <TextView
+        android:id="@+id/prePrefView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="123dp"
+        android:text="@string/prefix"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/cardSpin"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
