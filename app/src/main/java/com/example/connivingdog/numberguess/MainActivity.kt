@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity() {
         numberText.setOnKeyListener(View.OnKeyListener { v, keyCode, event -> //when enter is pressed on the keyboard
             if(event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER)
                 attemptFetchResult()
+
             return@OnKeyListener true
         })
+
+
     }
 
     private fun attemptFetchResult(){
