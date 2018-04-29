@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ArrayAdapter
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_add_sim_pref.*
 import android.view.inputmethod.InputMethodManager
+import com.google.firebase.database.*
 
 
 class AddSimPref : AppCompatActivity() {
@@ -33,12 +32,41 @@ class AddSimPref : AppCompatActivity() {
         prefText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if(event.action == KeyEvent.ACTION_DOWN){
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    addPrefix()
+                    attemptAddPrefix()
                     return@OnKeyListener true
                 }
             }
             false
         })
+    }
+
+    private fun attemptAddPrefix(){
+        var cancel: Boolean = false
+        var focusView: View? = null
+        var simPref: String = prefText.text.toString()
+
+        mDatabaseReference.child("simnumbers")
+                .orderByChild("simPref")
+                .equalTo(simPref)
+                .addValueEventListener( object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if(dataSnapshot.hasChildren()){
+                            prefText.error = "prefix already exists!"
+                            cancel = true
+                            focusView = prefText
+                        }
+                    }
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        println("loadPost:onCancelled ${databaseError.toException()}")
+                    }
+                })
+
+        if(cancel){
+            focusView?.requestFocus()
+        }
+        else{
+            addPrefix()
+        }
     }
     //push to database
     private fun addPrefix(){

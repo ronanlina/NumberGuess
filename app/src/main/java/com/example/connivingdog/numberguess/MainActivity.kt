@@ -1,12 +1,14 @@
 package com.example.connivingdog.numberguess
 
 import android.content.Intent
+import android.content.res.Resources
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import com.example.connivingdog.numberguess.R.array.sim_list
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.firebase.database.FirebaseDatabase
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         clear.setOnClickListener{
             numberText.text.clear()
             numberText.text.append("09")
+            simLogoImage.setImageResource(R.drawable.simdefault)
         }
 
         numberText.addTextChangedListener(object : TextWatcher {
@@ -72,13 +75,36 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach{
                     sp = it.getValue(SimPrefix::class.java)!!
-
-                    resultView.text = sp.simCard
+                    //resultView.text = sp.simCard
+                    displaySimLogo(sp.simCard.toString())
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 println("loadPost:onCancelled ${databaseError.toException()}")
             }
         })
+    }
+
+    // displaying the images
+    private fun displaySimLogo(simPrefix: String){
+            val res: Resources = resources
+            var sim = res.getStringArray(R.array.sim_list)
+
+            if(simPrefix.equals(sim[0])){
+                //globe tm
+                simLogoImage.setImageResource(R.drawable.globetm)
+            }
+            else if(simPrefix.equals(sim[1])){
+                //smart tnt
+                simLogoImage.setImageResource(R.drawable.smarttnt)
+            }
+            else if(simPrefix.equals(sim[2])){
+                //sun
+                simLogoImage.setImageResource(R.drawable.sun)
+            }
+            else if(simPrefix.equals(sim[3])){
+                //abscbn
+                simLogoImage.setImageResource(R.drawable.abscbnmobile)
+            }
     }
 }
