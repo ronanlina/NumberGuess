@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".AddSimPref">
 
     <Spinner
@@ -40,4 +41,5 @@
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/cardSpin"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
