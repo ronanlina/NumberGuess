@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         numberText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                Toast.makeText(this@MainActivity,
-                            "value :" + numberText.text,
-                            Toast.LENGTH_SHORT).show() //for testing
+//                Toast.makeText(this@MainActivity,
+//                            "value :" + numberText.text,
+//                            Toast.LENGTH_SHORT).show() //for testing
                             fetchResult(numberText.text.toString())
             }
 

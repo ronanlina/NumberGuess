@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_add_sim_pref.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import com.example.connivingdog.numberguess.R.id.*
 import com.google.firebase.database.*
@@ -18,7 +19,7 @@ import com.google.firebase.database.*
 class AddSimPref : AppCompatActivity() {
 
     private var mDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
-
+    private lateinit var prefListAdapter: PrefixListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_sim_pref)
@@ -29,12 +30,6 @@ class AddSimPref : AppCompatActivity() {
         arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cardSpin.adapter = arr
 
-        //populating recycler
-        //populateRecycler()
-        var prefListAdapter = PrefixListAdapter(mDatabaseReference,this@AddSimPref)
-        existingPrefListView.adapter = prefListAdapter
-
-
         //Keyboard automatically opens as activty starts
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -42,8 +37,8 @@ class AddSimPref : AppCompatActivity() {
         prefText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if(event.action == KeyEvent.ACTION_DOWN){
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    //attemptAddPrefix()
-                    addPrefix()
+                    //addPrefix()
+                    attemptAdd()
                     return@OnKeyListener true
                 }
             }
@@ -51,30 +46,53 @@ class AddSimPref : AppCompatActivity() {
         })
 
     }
-    private fun populateRecycler(){
-        var mAdapter: SimPrefixAdapter
-        var mDataList = arrayListOf<SimPrefix>()
-        mDatabaseReference.child("simnumbers").addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot){
-                dataSnapshot.children.forEach {
-                    var sp = it.getValue(SimPrefix::class.java)!!
-                    mDataList.add(sp)
-                }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError){
-
-            }
-
-        })
-        mAdapter = SimPrefixAdapter(this@AddSimPref,mDataList)
-        //existingPrefList.adapter = mAdapter
+    override fun onStart() {
+        super.onStart()
+        //populate listview
+        prefListAdapter = PrefixListAdapter(mDatabaseReference,this@AddSimPref)
+        existingPrefListView.adapter = prefListAdapter
     }
 
+    override fun onStop() {
+        super.onStop()
+        prefListAdapter.cleanup()
+    }
+
+    private fun attemptAdd(){
+        var focus: View? = null
+        var cancel: Boolean = false
+
+        if(prefText.length()<2){
+            prefText.error = "invalid length"
+            cancel = true
+            focus = prefText
+        }
+
+        if(cancel){
+            focus?.requestFocus()
+        }
+        else{
+            addPrefix()
+        }
+    }
+//
+//    private fun attemptAdd(prefix: String){
+//        for (i in 0..existingPrefListView.count){
+//            val v: View = existingPrefListView.getChildAt(i) !!
+//            val existingPref = v.findViewById<TextView>(R.id.prefix)
+//            if(!prefix.equals(existingPref.text.toString())){
+//                addPrefix(prefix)
+//            }
+//            else{
+//                Toast.makeText(this@AddSimPref,"already exists", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
     //push to database
     private fun addPrefix(){
-        var simCard = cardSpin.selectedItem.toString()
         var simPref: String = prePrefView.text.toString() + prefText.text.toString()
+        var simCard = cardSpin.selectedItem.toString()
         var sp = SimPrefix(simCard,simPref)
         mDatabaseReference.child("simnumbers").push().setValue(sp)
         Toast.makeText(this,"sim card prefix added!", Toast.LENGTH_SHORT).show()
