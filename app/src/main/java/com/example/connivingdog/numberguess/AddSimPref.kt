@@ -29,6 +29,12 @@ class AddSimPref : AppCompatActivity() {
         arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cardSpin.adapter = arr
 
+        //populating recycler
+        //populateRecycler()
+        var prefListAdapter = PrefixListAdapter(mDatabaseReference,this@AddSimPref)
+        existingPrefListView.adapter = prefListAdapter
+
+
         //Keyboard automatically opens as activty starts
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -45,39 +51,26 @@ class AddSimPref : AppCompatActivity() {
         })
 
     }
+    private fun populateRecycler(){
+        var mAdapter: SimPrefixAdapter
+        var mDataList = arrayListOf<SimPrefix>()
+        mDatabaseReference.child("simnumbers").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                dataSnapshot.children.forEach {
+                    var sp = it.getValue(SimPrefix::class.java)!!
+                    mDataList.add(sp)
+                }
+            }
 
-    /*private fun attemptAddPrefix(){
-        var simPref: String = prefText.text.toString()
-        var sp: SimPrefix
+            override fun onCancelled(databaseError: DatabaseError){
 
-        mDatabaseReference.child("simnumbers")
-                .orderByChild("simPref")
-                .equalTo(simPref)
-                .limitToFirst(1)
-                .addValueEventListener( object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+            }
 
-                        if(dataSnapshot!=null){
-                            dataSnapshot.children.forEach {
-                                sp = it.getValue(SimPrefix::class.java)!!
-                                if(sp.simPref.toString().equals(simPref)){
-                                    Toast.makeText(this@AddSimPref, "already exists", Toast.LENGTH_SHORT).show()
-                                }
-                                else{
-                                    addPrefix()
-                                }
-                            }
-                        }
-                        else{
-                            Toast.makeText(this@AddSimPref, "else", Toast.LENGTH_SHORT).show()
-                        }
+        })
+        mAdapter = SimPrefixAdapter(this@AddSimPref,mDataList)
+        //existingPrefList.adapter = mAdapter
+    }
 
-                    }
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        println("loadPost:onCancelled ${databaseError.toException()}")
-                    }
-                })
-    }*/
     //push to database
     private fun addPrefix(){
         var simCard = cardSpin.selectedItem.toString()
@@ -85,42 +78,5 @@ class AddSimPref : AppCompatActivity() {
         var sp = SimPrefix(simCard,simPref)
         mDatabaseReference.child("simnumbers").push().setValue(sp)
         Toast.makeText(this,"sim card prefix added!", Toast.LENGTH_SHORT).show()
-//        var coordinator: CoordinatorLayout? = R.id.coordinator as CoordinatorLayout?
-//        val snackbar = Snackbar
-//                .make(coordinator!!, "Snackbar with Callback", Snackbar.LENGTH_LONG)
-//                .setAction("OK") {
-//                    val snackbar1 = Snackbar.make(coordinator, "Snackbar with Callback called.", Snackbar.LENGTH_SHORT)
-//                    snackbar1.show()
-//                }
     }
 }
-
-
-
-//mDatabaseReference.child("simnumbers")
-//                .addValueEventListener( object : ValueEventListener {
-//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-//
-//                        var focusView: View? = null
-//
-//                        var exists: Boolean = false
-//                        dataSnapshot.children.forEach {
-//                            sp = it.getValue(SimPrefix::class.java)!!
-//                            if(sp.simPref.equals(simPref)){
-//                                exists = true
-//                                prefText.error = "prefix already exists!"
-//                                focusView = prefText
-//                            }
-//                        }
-//
-//                        if(exists){
-//                            focusView?.requestFocus()
-//                        }
-//                        else{
-//                            addPrefix()
-//                        }
-//                    }
-//                    override fun onCancelled(databaseError: DatabaseError) {
-//                        println("loadPost:onCancelled ${databaseError.toException()}")
-//                    }
-//                })
