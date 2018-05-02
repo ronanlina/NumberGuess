@@ -20,10 +20,14 @@
         </activity>
 
         <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="eadf460d56db9e6dee24265571d807228d38cab5" />
+
+        <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".AddSimPref"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

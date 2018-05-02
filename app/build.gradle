@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -35,5 +37,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:gridlayout-v7:27.1.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.2@aar') {
+        transitive = true;
+    }
 }
 apply plugin: 'com.google.gms.google-services'
