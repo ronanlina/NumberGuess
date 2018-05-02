@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.activity_add_sim_pref.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
-import com.example.connivingdog.numberguess.R.id.*
 import com.google.firebase.database.*
 
 
@@ -62,6 +61,8 @@ class AddSimPref : AppCompatActivity() {
     private fun attemptAdd(){
         var focus: View? = null
         var cancel: Boolean = false
+        var prefix: String  = prePrefView.text.toString() + prefText.text.toString()
+        var sp: SimPrefix
 
         if(prefText.length()<2){
             prefText.error = "invalid length"
@@ -69,26 +70,30 @@ class AddSimPref : AppCompatActivity() {
             focus = prefText
         }
 
-        if(cancel){
-            focus?.requestFocus()
-        }
-        else{
-            addPrefix()
-        }
+        //checks if prefix already exists
+        mDatabaseReference.child("simnumbers").orderByChild("simPref").addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+                    sp = it.getValue(SimPrefix::class.java)!!
+                    if(sp.simPref.equals(prefix)){
+                        prefText.error = "already exists"
+                        cancel = true
+                        focus = prefText
+                    }
+                }
+                if(cancel){
+                    focus?.requestFocus()
+                }
+                else{
+                    addPrefix()
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError?) {
+
+            }
+        })
     }
-//
-//    private fun attemptAdd(prefix: String){
-//        for (i in 0..existingPrefListView.count){
-//            val v: View = existingPrefListView.getChildAt(i) !!
-//            val existingPref = v.findViewById<TextView>(R.id.prefix)
-//            if(!prefix.equals(existingPref.text.toString())){
-//                addPrefix(prefix)
-//            }
-//            else{
-//                Toast.makeText(this@AddSimPref,"already exists", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
     //push to database
     private fun addPrefix(){
         var simPref: String = prePrefView.text.toString() + prefText.text.toString()
